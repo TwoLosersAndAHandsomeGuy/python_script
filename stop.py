@@ -14,7 +14,7 @@ def stop():
         num = 15
         while num > 0:
             time.sleep(1)
-            print(num)
+            # print(num)
             num -= 1
 
         screenshot() # 截图
@@ -23,12 +23,12 @@ def stop():
 
         s = similer("./screenshot.png", "./screenshot1.png") # 比较相似度
 
-        if s == "100":
-            print("视频正在播放，继续 。。。。。。")
-        else:
+        if int(s) > 95:
             print("已经停了，按下手机")
-            os.system("adb shell input tap 500 500")
-            os.system("adb shell input tap 25 1000")
+            os.system("adb shell input tap 950 570")
+            # os.system("adb shell input tap 25 1000")   
+        else:
+         print("视频正在播放，继续 。。。。。。")
 
 
 def compare_image(origin_location, new_location):
@@ -49,13 +49,13 @@ def compare_image(origin_location, new_location):
         print('两张图片相同')
         return True
     else:
-        print('哈哈，两张图片不同')
+        print('两张图片不同')
         return False
 
 # compare_image()
 
 def screenshot():
-    os.system("adb shell input tap 500 500")
+   #  os.system("adb shell input tap 500 500")
     time.sleep(1)
     print("开始截取图片")
     os.system('adb shell screencap -p /sdcard/screenshot1.png')
@@ -103,11 +103,14 @@ def getImgHash(image_file):
 
 def similer(origin_location, new_location):
 
-    origin_image = Image.open(origin_location)
-    origin = origin_image.crop((1,1,120,120))
+   #  origin_image = Image.open(origin_location)
+   #  origin = origin_image.crop((480,900,600,1020))
+   #  origin.save('origin.png', 'png')
+
+    origin = Image.open('origin.png')
 
     new_image = Image.open(new_location)
-    new = new_image.crop((1,1,120,120))
+    new = new_image.crop((480,900,600,1020))
 
     a = getImgHash(origin)
     b = getImgHash(new)
@@ -117,8 +120,7 @@ def similer(origin_location, new_location):
 
 if __name__ == '__main__':
     stop()
-
-
+   # s = similer("./screenshot.png", "./screenshot1.png")
 
 
 
